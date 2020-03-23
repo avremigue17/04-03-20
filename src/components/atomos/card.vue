@@ -13,15 +13,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .cardFlotante{
-        margin-left: 2%;
-        margin-top: 1%;
+        width: 500px;
         float: left;
         position: fixed;
         padding: 5px;
         border-radius: 3px;
         background:white;
-        background-color: rgba(255, 255, 255, 0.7);
+        background-color: rgba(16, 241, 148, 0.7);
+        text-align: center;
     }
 </style>

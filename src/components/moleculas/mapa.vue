@@ -11,45 +11,50 @@ export default {
     data(){
         return{
             map:null,
+            currentMarkers:[]
         };
+        
     },
     mounted(){
         mapboxgl.accessToken = 'pk.eyJ1IjoiYXZyZW1pZ3VlIiwiYSI6ImNrN2UyaGdyZzA0NmozZ250bGNyMHMyaXYifQ.mxEBxZOBHLkzJGPJllpVEg';
         this.map = new mapboxgl.Map({
             container: this.id,
             style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-102.630330,23.630330],
-            zoom: 3
+            center: [-110.312783,24.125018],
+            zoom: 13
         });
     },
     updated(){
-        
-        mapboxgl.accessToken = 'pk.eyJ1IjoiYXZyZW1pZ3VlIiwiYSI6ImNrN2UyaGdyZzA0NmozZ250bGNyMHMyaXYifQ.mxEBxZOBHLkzJGPJllpVEg';
+        /*mapboxgl.accessToken = 'pk.eyJ1IjoiYXZyZW1pZ3VlIiwiYSI6ImNrN2UyaGdyZzA0NmozZ250bGNyMHMyaXYifQ.mxEBxZOBHLkzJGPJllpVEg';
         this.map = new mapboxgl.Map({
             container: this.id,
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [-102.630330,23.630330],
             zoom: 3
-        });
-
-        for (const i in this.longitud) {
-        var popup = new mapboxgl.Popup({ offset: 25}).setHTML("<h2 style='text-align: center;'>"+this.name[i]+"</h2>"+"<p style='text-align: center;'>"+this.descrip[i]+"</p>"+"<img src='"+this.imagen[i]+"' style='width: 220px; height: 100px; border-radius: 10px'>");
+        });*/
+        if (this.currentMarkers!==null) {
+            for (var i = this.currentMarkers.length - 1; i >= 0; i--) {
+            this.currentMarkers[i].remove();
+            }
+        }
+        var popup = new mapboxgl.Popup({ offset: 25}).setHTML("<h2 style='text-align: center;'>"+this.name+"</h2>"+"<p style='text-align: center;'>"+this.descrip+"</p>"+"<img src='"+this.imagen+"' style='width: 220px; height: 100px; border-radius: 10px'>");
         var marcador = new mapboxgl.Marker();
-        marcador.setLngLat([this.longitud[i], this.latitud[i]]);
+        marcador.setLngLat([this.longitud, this.latitud]);
         marcador.addTo(this.map);
         this.map.flyTo({
-            center: [this.longitud[0],this.latitud[0]],
-            zoom: 13,
-            speed: 0.2,
-            curve: 1,
-            easing(t) {
+            center: [this.longitud,this.latitud],
+            zoom: 15,
+            bearing: 0,
+            speed: 0.8,
+            curve: 1, 
+            easing: function(t) {
                 return t;
-            }
+            },
+        essential: true
         });
-
         marcador.setPopup(popup);
-        }
-    }    
+        this.currentMarkers.push(marcador);
+    }  
 }
 </script>
 

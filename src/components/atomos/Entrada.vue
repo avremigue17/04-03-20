@@ -1,5 +1,5 @@
 <template>
-  <input ref="input" type="text" @input="input" :value="value">
+  <input ref="input" type="text" @input="input" :value="value" :placeholder="placeholder">
 </template>
 
 <script>
@@ -7,7 +7,8 @@ export default {
     name:"Entrada",
     props:[
         "type",
-        "value"
+        "value",
+        "placeholder"
     ],
     methods:{
         input(){
@@ -19,7 +20,7 @@ export default {
 
 <style>
     input{
-        width: 200PX;
+        width: 400PX;
         height: 31PX;
         border-radius: 4px;
         border:solid 1.5px steelblue;
