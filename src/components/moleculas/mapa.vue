@@ -38,6 +38,7 @@ export default {
             }
         }
         var popup = new mapboxgl.Popup({ offset: 25}).setHTML("<h2 style='text-align: center;'>"+this.name+"</h2>"+"<p style='text-align: center;'>"+this.descrip+"</p>"+"<img src='"+this.imagen+"' style='width: 220px; height: 100px; border-radius: 10px'>");
+        console.log(this.name);
         var marcador = new mapboxgl.Marker();
         marcador.setLngLat([this.longitud, this.latitud]);
         marcador.addTo(this.map);

@@ -40,11 +40,11 @@ methods:{
         }
     },
     ind(indice){
-            this.longitud=this.lista[indice].alt;
+            this.longitud=this.lista[indice].lon;
             this.latitud=this.lista[indice].lat;
-            this.descrip=this.lista[indice].descripcion;
+            this.descrip=this.lista[indice].description;
             this.name=this.lista[indice].name;
-            this.imagen=this.lista[indice].imagen;
+            this.imagen=this.lista[indice].image;
     }
 }
 }

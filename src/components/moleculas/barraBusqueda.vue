@@ -22,13 +22,13 @@ export default {
         ...mapMutations(["setResultadosMapa"]),
         buscar(){
             if(this.busqueda!=""){
-            axios.get("http://localhost:3000/busqueda", {
+            axios.get("http://localhost:3000/lugares", {
                 params: {
                     search: this.busqueda
                 }
             } ).then(response => {
                 this.$emit("emitir",response);
-                this.setResultadosMapa(response.data)
+                this.setResultadosMapa(response)
             }).catch(error => console.log(error));
         }else{
             this.$emit("emitir",this.busqueda);
