@@ -15,7 +15,6 @@ export default {
 
 <style scoped>
     .cardFlotante{
-        width: 500px;
         float: left;
         position: fixed;
         padding: 5px;

@@ -28,4 +28,14 @@ export default {
         font-size: 17px;
         margin: 0;
     }
+    .inputLogin{
+        width: 90%;
+        height: 31PX;
+        border-radius: 4px;
+        border:solid 1.5px steelblue;
+        text-align: center;
+        font-size: 17px;
+        margin: 0;
+        margin-bottom: 5px;
+    }
 </style>

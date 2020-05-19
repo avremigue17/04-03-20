@@ -17,5 +17,11 @@ export default {
       background-color: teal;
       color: white;
       font-size: 17px;
+      float: left;
+  }
+  .opciones{
+    width: 95%;
+    margin-bottom: 5px;
+    margin-left: 8px;
   }
 </style>
