@@ -2,11 +2,14 @@
   <div id="map-view">
     <mapa id="mapita" :longitud="longitud " :latitud="latitud" :descrip="descrip" :name="name" :imagen="imagen"/>
     
+    <!-- iniciar sesion -->
     <card v-if="!loged" id="card" styles="top: 5px; left: 94%;width: 5%;">
         <boton @click="buscar"><img src="https://img.icons8.com/cute-clipart/2x/login-rounded-right.png" style="width:50%; height:100%;"></boton>
         <login id="login" @emitir="logeado"></login>
     </card>
 
+
+    <!-- usuario ya logeado -->
     <card v-else id="card" styles="top: 5px; left: 94%;width: 5%;">
          <boton @click="buscar2"><img src="https://img.icons8.com/cute-clipart/2x/login-rounded-right.png" style="width:50%; height:100%;"></boton>
         <div id="loged">
@@ -19,6 +22,7 @@
         
     </card>
 
+    <!-- barra de busqueda -->
     <card styles="top: 5px; left: 5px; width: 500px;">
         <contenido styles="top: 51px; left: 5px;" :lista="lista" @devolver="ind"/>
         <barraBusqueda @emitir="recibir"/>
@@ -70,6 +74,7 @@ methods:{
             this.name=this.lista[indice].name;
             this.imagen=this.lista[indice].image;
     },
+    //inciar sesion
     buscar(){
         if(document.getElementById("login").style.display=="inline"){
             document.getElementById("login").style.display="none";
@@ -83,6 +88,7 @@ methods:{
             document.getElementById("card").style.left="79%";
         }
     },
+    //ya adentro
     buscar2(){
          if(document.getElementById("loged").style.display=="inline"){
             document.getElementById("loged").style.display="none";
