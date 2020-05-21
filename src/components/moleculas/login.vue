@@ -105,7 +105,6 @@ export default {
     width: 100%;
     height: 100px;
     float: left;
-    display: none;
 }
 .registro{
     width: 95%;
