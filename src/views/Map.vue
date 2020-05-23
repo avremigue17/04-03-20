@@ -10,10 +10,10 @@
         <!-- usuario ya logeado -->
         <div v-if="(loged && !palanca) && (!crear && !modificar && !eliminar)" id="loged">
             <h1>{{datosPersonales.user.nombre}}</h1>
-            <boton class="opciones" @click="opcion(1)">Crear</boton>
-            <boton class="opciones" @click="opcion(2)">Modifica</boton>
-            <boton class="opciones" @click="opcion(3)">Eliminar</boton>
-            <boton class="opciones" @click="salir">Salir</boton>
+            <boton class="registro" @click="opcion(1)">Crear</boton>
+            <boton class="registro" @click="opcion(2)">Modifica</boton>
+            <boton class="registro" @click="opcion(3)">Eliminar</boton>
+            <boton class="registro" @click="salir">Salir</boton>
         </div>
 
         <div v-if="crear && !palanca" id="crear">
@@ -22,16 +22,34 @@
             <Entrada placeholder="Longitud" type="text" id="longitud" class="registro"></Entrada>
             <Entrada placeholder="Descripcion" type="text" id="descripcion" class="registro"></Entrada>
             <Entrada placeholder="Url imagen" type="text" id="url" class="registro"></Entrada>
-            <boton class="opciones" @click="insertarLugar">Crear</boton>
-            <boton class="opciones" @click="volver(1)">Atras</boton>
+            <boton class="registro" @click="insertarLugar">Crear</boton>
+            <boton class="registro" @click="volver(1)">Atras</boton>
         </div>
 
         <div v-if="modificar && !palanca"  id="modificar">
-            <boton class="opciones" @click="volver(2)">Atras</boton>
+            <div v-if="!palanca" class="contenido" id="prueba">
+                <h1>Lugares creados</h1>
+                <div class="contenedor" v-for="(nombre,indice) in datosLugares" :key="nombre+indice">
+                    <!--<img src="https://sosracismo.eu/wp-content/uploads/2016/06/direccion.png">
+                    --><boton class="registro" v-on:click="modificarLugar(indice)" >{{datosLugares[indice].name}}</boton>
+                </div>
+                <boton class="registro" @click="volver(2)">Atras</boton>
+            </div>
+            <div class="contenido" id="prueba2" style="display:none">
+                <Entrada placeholder="Nombre" type="text" id="nombre2" class="registro"></Entrada>
+                <Entrada placeholder="Latitud" type="text" id="latitud2" class="registro"></Entrada>
+                <Entrada placeholder="Longitud" type="text" id="longitud2" class="registro"></Entrada>
+                <Entrada placeholder="Descripcion" type="text" id="descripcion2" class="registro"></Entrada>
+                <Entrada placeholder="Url imagen" type="text" id="url2" class="registro"></Entrada>
+                <boton class="registro" @click="realizarCambios()">Guardar</boton>
+                <boton class="registro" @click="volver2(2)">Atras</boton>
+            </div>
+            
         </div>
 
         <div v-if="eliminar && !palanca"  id="eliminar">
-            <boton class="opciones" @click="volver(3)">Atras</boton>
+            
+            <boton class="registro" @click="volver(3)">Atras</boton>
         </div>
     </card>
 
@@ -91,6 +109,10 @@ export default {
             descrip2:"",
             name2:"",
             imagen2:"",
+            datosLugares: [],
+            lugarSeleccionado: false,
+            holi:false,
+            id:"",
         };
     },
 methods:{
@@ -121,6 +143,7 @@ methods:{
         }
         this.palanca = !this.palanca;
     },
+    //logeado
     logeado(response){
         this.loged=response.message;
         this.datosPersonales=response.data;
@@ -134,7 +157,7 @@ methods:{
         switch(op)
         {
             case 1: this.crear = true; break;
-            case 2: this.modificar = true; break;
+            case 2: this.modificar = true;  this.consultarLugar(); break;
             case 3: this.eliminar = true; break;
         }
     },
@@ -146,6 +169,19 @@ methods:{
             case 3: this.eliminar = false; break;
         }
     },
+    volver2(op){
+        switch(op)
+        {
+            case 1: this.crear = false; break;
+            case 2: 
+                this.modificar = true; 
+                document.getElementById("prueba").style.display="inline";
+                document.getElementById("prueba2").style.display="none";
+            break;
+            case 3: this.eliminar = false; break;
+        }
+    },
+    //crear lugar
     insertarLugar(){
             this.name2=document.getElementById("nombre").value;
             this.latitud2=document.getElementById("latitud").value;
@@ -165,7 +201,53 @@ methods:{
                 console.log(response.data.message);
             }).catch(error => console.log(error));
             }
+            this.volver(1);
         },
+    //consultar lugar
+    consultarLugar(){
+        console.log(this.datosPersonales.user.id);
+        axios.post("http://localhost:3000/lugares/consultarLugares",{
+                userId:this.datosPersonales.user.id,
+            }).then(response => {
+                this.datosLugares=response.data;
+                console.log(this.datosLugares);
+            }).catch(error => console.log(error));
+
+    }, 
+    modificarLugar(id){
+        this.id=this.datosLugares[id].id;
+        console.log(this.datosLugares[id].name)
+        this.lugarSeleccionado=true;
+        document.getElementById("prueba").style.display="none";
+        document.getElementById("prueba2").style.display="inline";
+        document.getElementById("nombre2").value=this.datosLugares[id].name;
+        document.getElementById("latitud2").value=this.datosLugares[id].lat;
+        document.getElementById("longitud2").value=this.datosLugares[id].lon;
+        document.getElementById("descripcion2").value=this.datosLugares[id].description;
+        document.getElementById("url2").value=this.datosLugares[id].image;
+    },
+    realizarCambios(){
+        this.name2=document.getElementById("nombre2").value;
+        this.latitud2=document.getElementById("latitud2").value;
+        this.longitud2=document.getElementById("longitud2").value;
+        this.descrip2=document.getElementById("descripcion2").value;
+        this.imagen2=document.getElementById("url2").value;
+
+        if(this.name2!="" && this.latitud2!="" && this.longitud2!="" && this.descrip2!="" && this.imagen2!=""){
+            axios.post("http://localhost:3000/lugares/modificarLugar",{
+                name:this.name2,
+                image:this.imagen2, 
+                lat:this.latitud2, 
+                lon:this.longitud2, 
+                description:this.descrip2,
+                id:this.id,
+            }).then(response => {
+            console.log(response.data.message);
+            }).catch(error => console.log(error));
+        }
+        this.volver2(2);
+        this.volver(2);
+    },
 }
 }
 </script>
@@ -183,5 +265,13 @@ methods:{
     height: 25px;
     margin-top: 2%;
     margin-left: 2.5%;
+    
 }
+.contenedor{
+        float: left;
+        width: 100%;
+        height: 70%;
+        overflow: hidden;
+        text-align: center;
+    }
 </style>
