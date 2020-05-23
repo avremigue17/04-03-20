@@ -30,8 +30,7 @@
             <div v-if="!palanca" class="contenido" id="prueba">
                 <h1>Lugares creados</h1>
                 <div class="contenedor" v-for="(nombre,indice) in datosLugares" :key="nombre+indice">
-                    <!--<img src="https://sosracismo.eu/wp-content/uploads/2016/06/direccion.png">
-                    --><boton class="registro" v-on:click="modificarLugar(indice)" >{{datosLugares[indice].name}}</boton>
+                   <boton class="registro" v-on:click="modificarLugar(indice)" >{{datosLugares[indice].name}}</boton>
                 </div>
                 <boton class="registro" @click="volver(2)">Atras</boton>
             </div>
@@ -48,8 +47,13 @@
         </div>
 
         <div v-if="eliminar && !palanca"  id="eliminar">
-            
-            <boton class="registro" @click="volver(3)">Atras</boton>
+            <div v-if="!palanca" class="contenido" id="prueba">
+                <h1>Lugares creados</h1>
+                <div class="contenedor" v-for="(nombre,indice) in datosLugares" :key="nombre+indice">
+                    <boton class="registro" v-on:click="eliminarLugar(indice)" >{{datosLugares[indice].name}}</boton>
+                </div>
+                <boton class="registro" @click="volver(3)">Atras</boton>
+            </div> 
         </div>
     </card>
 
@@ -158,7 +162,7 @@ methods:{
         {
             case 1: this.crear = true; break;
             case 2: this.modificar = true;  this.consultarLugar(); break;
-            case 3: this.eliminar = true; break;
+            case 3: this.eliminar = true;this.consultarLugar(); break;
         }
     },
     volver(op){
@@ -205,18 +209,15 @@ methods:{
         },
     //consultar lugar
     consultarLugar(){
-        console.log(this.datosPersonales.user.id);
         axios.post("http://localhost:3000/lugares/consultarLugares",{
                 userId:this.datosPersonales.user.id,
             }).then(response => {
                 this.datosLugares=response.data;
-                console.log(this.datosLugares);
             }).catch(error => console.log(error));
 
     }, 
     modificarLugar(id){
         this.id=this.datosLugares[id].id;
-        console.log(this.datosLugares[id].name)
         this.lugarSeleccionado=true;
         document.getElementById("prueba").style.display="none";
         document.getElementById("prueba2").style.display="inline";
@@ -247,6 +248,18 @@ methods:{
         }
         this.volver2(2);
         this.volver(2);
+    },
+    eliminarLugar(id){
+        if(id!==""){
+            console.log(this.datosLugares[id].id);
+            axios.post("http://localhost:3000/lugares/eliminarLugar",{
+                id:this.datosLugares[id].id,
+            }).then(response => {
+            console.log(response.data.message);
+            }).catch(error => console.log(error));
+        }
+        this.volver2(3);
+        this.volver(3);
     },
 }
 }
