@@ -1,6 +1,5 @@
 <template>
-  <div :id="id" class="mapita" :longitud="longitud" :latitud="latitud" :descrip="descrip" :name="name" :imagen="imagen">
-  </div>
+  <div :id="id" class="mapita" :longitud="longitud" :latitud="latitud" :descrip="descrip" :name="name" :imagen="imagen"></div>
 </template>
 
 <script>
@@ -41,10 +40,13 @@ export default {
         });*/
         if (this.currentMarkers!==null) {
             for (var i = this.currentMarkers.length - 1; i >= 0; i--) {
-            this.currentMarkers[i].remove();
+                this.currentMarkers[i].remove();
             }
         }
-        var popup = new mapboxgl.Popup({ offset: 25}).setHTML("<h2 style='text-align: center;'>"+this.name+"</h2>"+"<p style='text-align: center;'>"+this.descrip+"</p>"+"<img src='"+this.imagen+"' style='width: 220px; height: 100px; border-radius: 10px'>");
+        var popup = new mapboxgl.Popup({
+            offset: 25
+        }).setHTML("<h2 style='text-align: center;'>"+this.name+"</h2>"+"<p style='text-align: center;'>"+this.descrip+"</p>"+
+                   "<img src='"+this.imagen+"' style='width: 220px; height: 100px; border-radius: 10px'>"/*+"<p style='text-align: center;'>Calificacion</p>"*/);
         var marcador = new mapboxgl.Marker();
         marcador.setLngLat([this.longitud, this.latitud]);
         marcador.addTo(this.map);
@@ -57,7 +59,7 @@ export default {
             easing: function(t) {
                 return t;
             },
-        essential: true
+            essential: true
         });
         marcador.setPopup(popup);
         this.currentMarkers.push(marcador);
@@ -70,5 +72,9 @@ export default {
         height: 100%;
         width: 100%;
     }
-    #map { top: 0; bottom: 0; width: 100%; }
+    #map{
+        top: 0; 
+        bottom: 0; 
+        width: 100%; 
+    }
 </style>
