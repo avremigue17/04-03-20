@@ -23,6 +23,13 @@ export default {
             center: [-110.312783,24.125018],
             zoom: 13
         });
+        var geocoder=new mapboxgl.GeolocateControl({
+            positionOptions: {
+            enableHighAccuracy: true
+            },
+            trackUserLocation: true
+            })
+        this.map.addControl(geocoder,'bottom-right');
     },
     updated(){
         /*mapboxgl.accessToken = 'pk.eyJ1IjoiYXZyZW1pZ3VlIiwiYSI6ImNrN2UyaGdyZzA0NmozZ250bGNyMHMyaXYifQ.mxEBxZOBHLkzJGPJllpVEg';
@@ -38,7 +45,6 @@ export default {
             }
         }
         var popup = new mapboxgl.Popup({ offset: 25}).setHTML("<h2 style='text-align: center;'>"+this.name+"</h2>"+"<p style='text-align: center;'>"+this.descrip+"</p>"+"<img src='"+this.imagen+"' style='width: 220px; height: 100px; border-radius: 10px'>");
-        console.log(this.name);
         var marcador = new mapboxgl.Marker();
         marcador.setLngLat([this.longitud, this.latitud]);
         marcador.addTo(this.map);
@@ -64,4 +70,5 @@ export default {
         height: 100%;
         width: 100%;
     }
+    #map { top: 0; bottom: 0; width: 100%; }
 </style>

@@ -5,7 +5,7 @@
         <ul>
             <li v-for="(nombre,indice) in lista" :key="nombre+indice">
                 <div class="contenedor" v-on:click="devolver(indice)">
-                    <img src="https://sosracismo.eu/wp-content/uploads/2016/06/direccion.png">
+                    <img src="https://lafarmaciahomeopatica.com/wp-content/uploads/2019/12/location-pin-flat.png">
                     <h3>{{lista[indice].name}}</h3>
                     <p>{{lista[indice].direccion}}</p>
                 </div>
@@ -35,12 +35,12 @@ export default {
 
 <style scoped>
     .cardFlotante{
-        width: 500px;
+        width: 400px;
         float: left;
         position: fixed;
-        padding: 5px;
+        padding-top: 0px;
+        margin-left: 50px;
         border-radius: 3px;
-        background:white;
         background-color: rgba(16, 241, 148, 0.7);
         text-align: center;
     }
@@ -55,7 +55,7 @@ export default {
         list-style-type: none;
     }
     li{
-        width: 470px;
+        width: 370px;
         margin-left: -25px;
     }
     .contenido{
@@ -64,19 +64,19 @@ export default {
     }
     img{
         width: 50px;
-        height: 50px;
+        height: 45px;
         float: left;
-        margin-top: 5px;
         margin-left: 5px;
     }
     h3{
-        width: 80%;
+        width: 70%;
         float: left;
         margin-left: 5px;
         text-align: center;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 20px;
-        margin-bottom: 0;
+        margin-top: 10px;
+        margin-bottom: 0px;
         color: rgb(207, 65, 40);
     }
     p{

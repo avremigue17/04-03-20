@@ -20,7 +20,7 @@ export default {
         padding: 5px;
         border-radius: 3px;
         background:white;
-        background-color: rgba(16, 241, 148, 0.7);
+        background-color: rgba(16, 241, 148, 0);
         text-align: center;
     }
 </style>

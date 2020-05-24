@@ -3,10 +3,10 @@
       <!-- login -->
       <h1 v-if="!registro">Iniciar Sesion</h1>
       <imagen v-if="!registro" link="https://www.ebat.edu.mx/theme/images/avatar/avatar-18.png"/>
-      <Entrada v-if="!registro" placeholder="Correo" type="text" id="user" class="inputLogin" style="float:left"></Entrada>
-      <Entrada v-if="!registro" placeholder="Contraseña" type="password" id="pass" class="inputLogin" style="float:left"></Entrada>
-      <boton v-if="!registro"  @click="buscar">Aceptar</boton>
-      <boton v-if="!registro"  @click="registrar">Registrarse</boton>
+      <Entrada v-if="!registro" placeholder="Correo" type="text" id="user" class="registro" style="float:left"></Entrada>
+      <Entrada v-if="!registro" placeholder="Contraseña" type="password" id="pass" class="registro" style="float:left"></Entrada>
+      <boton v-if="!registro" class="registro" @click="buscar">Iniciar</boton>
+      <boton v-if="!registro" class="registro2" @click="registrar">Registrarse</boton>
       <!-- registro -->
       <h1 v-if="registro">Registro</h1>
       <Entrada v-if="registro" placeholder="Nombre"  type="text" id="nombre" class="registro" style="float:left"></Entrada>
@@ -16,8 +16,8 @@
       <Entrada v-if="registro" placeholder="Usuario" type="text" id="usiario" class="registro" style="float:left"></Entrada>
       <Entrada v-if="registro" placeholder="Contraseña" type="password" id="pass" class="registro" style="float:left"></Entrada>
       <Entrada v-if="registro" placeholder="Fecha de Nacimiento" type="text" id="fecha" class="registro" style="float:left"></Entrada>
-      <boton v-if="registro"  @click="atras">Atras</boton>
-      <boton v-if="registro"  @click="insertar">Registrarse</boton>
+      <boton v-if="registro" class="registro"  @click="atras">Atras</boton>
+      <boton v-if="registro" class="registro" @click="insertar">Registrarse</boton>
 
   </div>
 </template>
@@ -108,8 +108,33 @@ export default {
 }
 .registro{
     width: 95%;
+    height: 30px;
+    margin-top: 2%;
+    margin-left: 2.5%;
+    background-color: floralwhite;
+    border-radius: 5px;  
+}
+.registro2{
+    width: 95%;
     height: 25px;
     margin-top: 2%;
     margin-left: 2.5%;
+    background-color: rgba(16, 241, 148, 0);
+    border: none;
+    border-radius: 5px;  
+     text-decoration: underline;
 }
+h1{
+    width: 98%;
+        float: left;
+        color: darkblue;
+        font-weight: bold;
+        font-size: 45px;
+        margin-top: 8px;
+        text-align: center;
+        border: solid white;
+        border-width: 3px;
+        border-top-right-radius: 15%;
+        border-bottom-left-radius: 15%;
+    }
 </style>

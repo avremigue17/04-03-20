@@ -1,19 +1,23 @@
 <template>
   <div id="map-view">
+    <div class="cabecera">
+       <img src="https://place.network/wp-content/uploads/2019/08/PLACE-LOGO.png">
+       <h2>.Search</h2>
+    </div>
     <mapa id="mapita" :longitud="longitud " :latitud="latitud" :descrip="descrip" :name="name" :imagen="imagen"/>
     
-    <card  id="card" styles="top: 5px; left: 94%;width: 5%;">
+    <card  id="card" styles="top: 8px; left: 96.5%;width: 2.5%;">
         <!-- iniciar sesion -->
-        <boton @click="resize"><img src="https://img.icons8.com/cute-clipart/2x/login-rounded-right.png" style="width:50%; height:100%;"></boton>
+        <img id="botonVolver" @click="resize" src="https://cdn1.iconfinder.com/data/icons/pikku-ui/16/dots_vertical-512.png" style="width:40px; height:40px;">
         <login v-if="!loged && !palanca" id="login" @emitir="logeado"></login>
         
         <!-- usuario ya logeado -->
         <div v-if="(loged && !palanca) && (!crear && !modificar && !eliminar)" id="loged">
-            <h1>{{datosPersonales.user.nombre}}</h1>
-            <boton class="registro" @click="opcion(1)">Crear</boton>
-            <boton class="registro" @click="opcion(2)">Modifica</boton>
-            <boton class="registro" @click="opcion(3)">Eliminar</boton>
-            <boton class="registro" @click="salir">Salir</boton>
+            <h1>Bienvenido:<br>{{datosPersonales.user.nombre}}</h1>
+            <boton class="registro3" @click="opcion(1)">Crear lugar</boton>
+            <boton class="registro3" @click="opcion(2)">Modifica lugar</boton>
+            <boton class="registro3" @click="opcion(3)">Eliminar lugar</boton>
+            <boton class="registro3" @click="salir">Salir</boton>
         </div>
 
         <div v-if="crear && !palanca" id="crear">
@@ -28,9 +32,9 @@
 
         <div v-if="modificar && !palanca"  id="modificar">
             <div v-if="!palanca" class="contenido" id="prueba">
-                <h1>Lugares creados</h1>
-                <div class="contenedor" v-for="(nombre,indice) in datosLugares" :key="nombre+indice">
-                   <boton class="registro" v-on:click="modificarLugar(indice)" >{{datosLugares[indice].name}}</boton>
+                <h1>Lugares</h1>
+                <div class="contenedor">
+                   <boton class="registro" v-for="(nombre,indice) in datosLugares" :key="nombre+indice" v-on:click="modificarLugar(indice)" >{{datosLugares[indice].name}}</boton>
                 </div>
                 <boton class="registro" @click="volver(2)">Atras</boton>
             </div>
@@ -48,9 +52,9 @@
 
         <div v-if="eliminar && !palanca"  id="eliminar">
             <div v-if="!palanca" class="contenido" id="prueba">
-                <h1>Lugares creados</h1>
-                <div class="contenedor" v-for="(nombre,indice) in datosLugares" :key="nombre+indice">
-                    <boton class="registro" v-on:click="eliminarLugar(indice)" >{{datosLugares[indice].name}}</boton>
+                <h1>Lugares</h1>
+                <div class="contenedor">
+                    <boton class="registro" v-for="(nombre,indice) in datosLugares" :key="nombre+indice" v-on:click="eliminarLugar(indice)" >{{datosLugares[indice].name}}</boton>
                 </div>
                 <boton class="registro" @click="volver(3)">Atras</boton>
             </div> 
@@ -66,10 +70,11 @@
     -->
 
     <!-- barra de busqueda -->
-    <card styles="top: 5px; left: 5px; width: 500px;">
+    <card styles="top: 8px; left: 5px; width: 500px;">
         <contenido styles="top: 51px; left: 5px;" :lista="lista" @devolver="ind"/>
         <barraBusqueda @emitir="recibir"/>
     </card>
+    
   </div>
 </template>
 
@@ -137,13 +142,18 @@ methods:{
     //inciar sesion
     resize(){
         if(!this.palanca){
-            document.getElementById("card").style.width="5%";
+            document.getElementById("card").style.width="2.5%";
             document.getElementById("card").style.height="5%";
-            document.getElementById("card").style.left="94%";
+            document.getElementById("card").style.left="96.5%";
+            document.getElementById("botonVolver").src="https://cdn1.iconfinder.com/data/icons/pikku-ui/16/dots_vertical-512.png";
+            document.getElementById("card").style.backgroundColor="rgba(16, 241, 148, 0)";
         }else{
             document.getElementById("card").style.width="20%";
-            document.getElementById("card").style.height="60%";
+            document.getElementById("card").style.height="78%";
             document.getElementById("card").style.left="79%";
+            document.getElementById("botonVolver").src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-right-01-512.png";
+            document.getElementById("card").style.backgroundColor="rgba(16, 241, 148, .7)";
+            
         }
         this.palanca = !this.palanca;
     },
@@ -267,24 +277,64 @@ methods:{
 
 <style scoped>
     #map-view{
-        height: 100vh;
-        width: 100vw;
+        height: 90vh;
+        width: 99vw;
     }
     h1{
         float: left;
+        color: darkblue;
+        font-weight: bold;
+        font-size: 45px;
+        margin-top: 8px;
+    }
+    h2{
+        float: left;
+        color: darkblue;
+        font-weight: bold;
+        font-size: 45px;
+        margin-top: 8px;
     }
     .registro{
     width: 95%;
-    height: 25px;
+    height: 30px;
     margin-top: 2%;
     margin-left: 2.5%;
+    background-color: floralwhite;
+    border-radius: 5px;
     
 }
+  .registro3{
+    width: 95%;
+    height: 50px;
+    margin-top: 2%;
+    margin-left: 2.5%;
+    background-color: floralwhite;
+    border-radius: 5px;
+    
+}
+
 .contenedor{
+        overflow: auto;
         float: left;
         width: 100%;
-        height: 70%;
-        overflow: hidden;
+        height: 320px;
         text-align: center;
     }
+.cabecera{
+    width: 100%;
+    height: 50px;
+    background-color: rgba(16, 241, 148, .7);
+    float: left;
+    text-align: center;
+}
+img{
+    width: 15%;
+    height: 100%;
+    text-align: center;
+    float: left;
+    margin-left: 40%;
+}
+#botonVolver{
+     float: right;
+}
 </style>
