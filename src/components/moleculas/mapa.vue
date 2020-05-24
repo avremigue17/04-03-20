@@ -1,16 +1,20 @@
 <template>
-  <div :id="id" class="mapita" :longitud="longitud" :latitud="latitud" :descrip="descrip" :name="name" :imagen="imagen"></div>
+  <div :id="id" :lugarId="lugarId" class="mapita" :longitud="longitud" :latitud="latitud" :descrip="descrip" :name="name" :imagen="imagen"></div>
 </template>
 
 <script>
+import axios from "axios";
 var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 export default {
     name:"mapa",
-    props:["id","longitud","latitud","descrip","name","imagen"],
+    props:["id","lugarId","longitud","latitud","descrip","name","imagen"],
     data(){
         return{
             map:null,
-            currentMarkers:[]
+            currentMarkers:[],
+            datosCalificaicones:[],
+            calificaciones:[],
+            calificaion:0,
         };
         
     },
@@ -29,6 +33,10 @@ export default {
             trackUserLocation: true
             })
         this.map.addControl(geocoder,'bottom-right');
+        axios.post("http://localhost:3000/calificaciones/consultarCalificacion", {
+        } ).then(response => {
+            this.datosCalificaicones = response.data;
+        }).catch(error => console.log(error));
     },
     updated(){
         /*mapboxgl.accessToken = 'pk.eyJ1IjoiYXZyZW1pZ3VlIiwiYSI6ImNrN2UyaGdyZzA0NmozZ250bGNyMHMyaXYifQ.mxEBxZOBHLkzJGPJllpVEg';
@@ -38,15 +46,35 @@ export default {
             center: [-102.630330,23.630330],
             zoom: 3
         });*/
-        if (this.currentMarkers!==null) {
+        
+        if(this.currentMarkers!==null) {
             for (var i = this.currentMarkers.length - 1; i >= 0; i--) {
                 this.currentMarkers[i].remove();
             }
         }
+        for(var j = 0;j<this.datosCalificaicones.length;j++){
+            if(this.datosCalificaicones[j].placeId == this.lugarId)
+            {
+                this.calificaciones.push(this.datosCalificaicones[j].calificacion);
+                console.log(this.datosCalificaicones[j].calificacion);
+            }
+        }
+        if(this.calificaciones.length!=0){
+            var calificacionAux = 0;
+            for(var h = 0;h<this.calificaciones.length;h++){
+            calificacionAux += this.calificaciones[h];
+            }
+            this.calificacion = ((calificacionAux/this.calificaciones.length)*100)/5;
+            this.calificaciones = [];
+        }
+        else{
+            this.calificacion = 0;
+        }
         var popup = new mapboxgl.Popup({
             offset: 25
         }).setHTML("<h2 style='text-align: center;'>"+this.name+"</h2>"+"<p style='text-align: center;'>"+this.descrip+"</p>"+
-                   "<img src='"+this.imagen+"' style='width: 220px; height: 100px; border-radius: 10px'>"/*+"<p style='text-align: center;'>Calificacion</p>"*/);
+                   "<img src='"+this.imagen+"' style='width: 220px; height: 100px; border-radius: 10px'>"+
+                   "<p style='text-align: center;'>Calificacion:"+this.calificacion+"</p>");
         var marcador = new mapboxgl.Marker();
         marcador.setLngLat([this.longitud, this.latitud]);
         marcador.addTo(this.map);

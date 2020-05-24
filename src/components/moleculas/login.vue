@@ -95,7 +95,7 @@ export default {
         },
         atras(){
             this.registro = false;
-        }
+        },
     }
 }
 </script>

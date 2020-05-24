@@ -4,7 +4,7 @@
         <img src="https://place.network/wp-content/uploads/2019/08/PLACE-LOGO.png">
         <h2>.Search</h2>
         </div>
-        <mapa id="mapita" :longitud="longitud " :latitud="latitud" :descrip="descrip" :name="name" :imagen="imagen"/>
+        <mapa id="mapita" :lugarId="lugarId" :longitud="longitud " :latitud="latitud" :descrip="descrip" :name="name" :imagen="imagen"/>
         
         <card  id="card" styles="top: 8px; left: 96.5%;width: 2.5%;">
             <!-- iniciar sesion -->
@@ -100,6 +100,7 @@ export default {
     },
     data(){
         return{
+            lugarId:"",
             longitud:"",
             latitud:"",
             descrip:"",
@@ -133,6 +134,7 @@ export default {
             }
         },
         ind(indice){
+            this.lugarId=this.lista[indice].id;
             this.longitud=this.lista[indice].lon;
             this.latitud=this.lista[indice].lat;
             this.descrip=this.lista[indice].description;
