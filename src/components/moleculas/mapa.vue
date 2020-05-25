@@ -18,6 +18,11 @@ export default {
         };
         
     },
+    methods:{
+        modificar(id,placeId){
+        console.log(id+" "+placeId);
+        },
+    },
     mounted(){
         mapboxgl.accessToken = 'pk.eyJ1IjoiYXZyZW1pZ3VlIiwiYSI6ImNrN2UyaGdyZzA0NmozZ250bGNyMHMyaXYifQ.mxEBxZOBHLkzJGPJllpVEg';
         this.map = new mapboxgl.Map({
@@ -62,7 +67,7 @@ export default {
         var cadena = "";
         for(var k =0;k<5;k++)
         {
-            cadena += "<img style='margin-top:5%; width:20%; height: 100%;' src='https://icons-for-free.com/iconfiles/png/512/favorite+favourite+premium+rate+rating+star+icon-1320166547676710135.png'>";
+            cadena += "<img class='estrellas' style='margin-top:5%; width:20%; height: 100%;' src='https://icons-for-free.com/iconfiles/png/512/favorite+favourite+premium+rate+rating+star+icon-1320166547676710135.png'>";
         }
         if(this.calificaciones.length!=0){
             var calificacionAux = 0;
@@ -111,9 +116,5 @@ export default {
         top: 0; 
         bottom: 0; 
         width: 100%; 
-    }
-    #estrellas{
-        width:20%; 
-        height: 100%;
     }
 </style>
