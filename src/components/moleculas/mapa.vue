@@ -59,6 +59,11 @@ export default {
                 console.log(this.datosCalificaicones[j].calificacion);
             }
         }
+        var cadena = "";
+        for(var k =0;k<5;k++)
+        {
+            cadena += "<img style='margin-top:5%; width:20%; height: 100%;' src='https://icons-for-free.com/iconfiles/png/512/favorite+favourite+premium+rate+rating+star+icon-1320166547676710135.png'>";
+        }
         if(this.calificaciones.length!=0){
             var calificacionAux = 0;
             for(var h = 0;h<this.calificaciones.length;h++){
@@ -74,7 +79,9 @@ export default {
             offset: 25
         }).setHTML("<h2 style='text-align: center;'>"+this.name+"</h2>"+"<p style='text-align: center;'>"+this.descrip+"</p>"+
                    "<img src='"+this.imagen+"' style='width: 220px; height: 100px; border-radius: 10px'>"+
-                   "<p style='text-align: center;'>Calificacion:"+this.calificacion+"</p>");
+                   "<p style='text-align: center; width: 100%; '>Calificacion:"+
+                   "</p><div style='margin-left: 30%; margin-top: -5%; width: 40%; height: 1%; "+
+                   "background-image: linear-gradient(to right,yellow "+(this.calificacion)+"%,white 0%);'>"+cadena+"</div>");
         var marcador = new mapboxgl.Marker();
         marcador.setLngLat([this.longitud, this.latitud]);
         marcador.addTo(this.map);
@@ -104,5 +111,9 @@ export default {
         top: 0; 
         bottom: 0; 
         width: 100%; 
+    }
+    #estrellas{
+        width:20%; 
+        height: 100%;
     }
 </style>
