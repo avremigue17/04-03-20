@@ -79,18 +79,18 @@ export default {
             }
         },
         modificar(loged, calificacion, placeId, userId){
-
             if(loged)
             {
                 for(var k=0;k<this.datosCalificaicones.length;k++)
                 {
                     if(userId.user.id == this.datosCalificaicones[k].userId)
                     {
-                        this.existeLugar = true;
+                        if(this.datosCalificaicones[k].placeId==placeId)
+                            this.existeLugar = true;
                     }
                 }
-                console.log(this.existeLugar);
                 if(this.existeLugar){
+                    this.existeLugar = false;
                     axios.post("http://localhost:3000/Calificaciones/modificarCalificacion",{
                         calificacion:calificacion,
                         placeid:placeId

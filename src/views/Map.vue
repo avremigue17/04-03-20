@@ -126,6 +126,7 @@ export default {
                 axios.post("http://localhost:3000/calificaciones/consultarCalificacion", {
                 } ).then(response => {
                     this.datosCalificaicones = response.data;
+                    console.log(response.data)
                 }).catch(error => console.log(error));
             }
             else{
