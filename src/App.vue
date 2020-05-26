@@ -6,12 +6,8 @@
 
 <script>
 export default {
-  
 }
 </script>
 
 <style>
-  .estrellas:hover{
-    background-color: red;
-  }
 </style>

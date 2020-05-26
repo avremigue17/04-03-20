@@ -14,7 +14,13 @@ export default {
         input(){
             this.$emit("input", this.$refs.input.value)
         }
-    }
+    },
+    data(){
+        return{
+            value2:"",
+        };
+        
+    },
 }
 </script>
 

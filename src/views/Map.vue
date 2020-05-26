@@ -61,18 +61,10 @@
             </div>
         </card>
 
-
-        <!--
-        <card v-else id="card" styles="top: 5px; left: 94%;width: 5%;">
-            
-            
-        </card>
-        -->
-
         <!-- barra de busqueda -->
         <card styles="top: 8px; left: 5px; width: 500px;">
-            <contenido styles="top: 51px; left: 5px;" :lista="lista" @devolver="ind"/>
-            <barraBusqueda @emitir="recibir"/>
+            <contenido styles="top: 51px; left: 5px;" :loged="loged" :datosPersonales="datosPersonales" :datosCalificaicones="datosCalificaicones" :lista="lista" @emitir="recibir" @devolver="ind"/>
+            <barraBusqueda id="barraBusqueda" @emitir="recibir"/>
         </card>
         
     </div>
@@ -123,13 +115,20 @@ export default {
             lugarSeleccionado: false,
             holi:false,
             id:"",
+            datosCalificaicones:[],
+            palanca2:false,
         };
     },
     methods:{
         recibir(response){
             if(response!=""){
                 this.lista=response.data.data;
-            }else{
+                axios.post("http://localhost:3000/calificaciones/consultarCalificacion", {
+                } ).then(response => {
+                    this.datosCalificaicones = response.data;
+                }).catch(error => console.log(error));
+            }
+            else{
                 this.lista="";
             }
         },

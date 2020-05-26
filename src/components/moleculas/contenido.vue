@@ -1,13 +1,20 @@
 <template>
-  <div class="cardFlotante" :style="styles" :lista="lista">
+  <div class="cardFlotante" :datosPersonales="datosPersonales" :loged="loged" :style="styles" :lista="lista" :datosCalificaicones="datosCalificaicones">
     <slot/>
     <div class="contenido" v-if="lista!=''">
         <ul>
             <li v-for="(nombre,indice) in lista" :key="nombre+indice">
-                <div class="contenedor" v-on:click="devolver(indice)">
+                <div class="contenedor">
                     <img src="https://lafarmaciahomeopatica.com/wp-content/uploads/2019/12/location-pin-flat.png">
-                    <h3>{{lista[indice].name}}</h3>
-                    <p>{{lista[indice].direccion}}</p>
+                    <h3 v-on:click="devolver(indice)">{{lista[indice].name}}</h3>
+                    <h3>{{calificacion(lista[indice].id,indice)}}</h3>
+                    <div class="estrellitas">
+                        <img @click="modificar(loged, 5, lista[indice].id, datosPersonales)" class='estrella' :src="estrellas">
+                        <img @click="modificar(loged, 4, lista[indice].id, datosPersonales)" class='estrella' :src="estrellas">
+                        <img @click="modificar(loged, 3, lista[indice].id, datosPersonales)" class='estrella' :src="estrellas">
+                        <img @click="modificar(loged, 2, lista[indice].id, datosPersonales)" class='estrella' :src="estrellas">
+                        <img @click="modificar(loged, 1, lista[indice].id, datosPersonales)" class='estrella' :src="estrellas">
+                    </div>
                 </div>
             </li>
         </ul>
@@ -19,21 +26,120 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
     name: "contenido",
     props:[
         "styles",
-        "lista"
+        "lista",
+        "datosCalificaicones",
+        "datosPersonales",
+        "loged"
     ],
+    data(){
+        return {
+            estrellas:"https://icons-for-free.com/iconfiles/png/512/favorite+favourite+premium+rate+rating+star+icon-1320166547676710135.png",
+            estrellotas:[1,2,3,4,5],
+            existeLugar:false,
+        }
+    },
     methods:{
         devolver(indice){
             this.$emit("devolver",indice);
-        }
+        },
+        calificacion(id,indice)
+        {
+            var totalCal = 0;
+            var calificacionAux = 0;
+            var palanca = false;
+            for(var k=0;k<this.datosCalificaicones.length;k++)
+            {
+                if(id == this.datosCalificaicones[k].placeId)
+                {
+                    totalCal++;
+                    calificacionAux += this.datosCalificaicones[k].calificacion;
+                    palanca = true;
+                }
+            }
+
+            var calificacionFinal = 0;
+            if(palanca)
+                calificacionFinal = (((calificacionAux/totalCal)*100)/5);
+            
+            for(var i=0;i<this.datosCalificaicones.length;i++)
+            {
+                if(id == this.datosCalificaicones[i].placeId)
+                {
+                    var estrellitas = document.getElementsByClassName("estrellitas");
+                    for(var j=0;j<estrellitas.length;j++)
+                    {
+                        estrellitas[indice].style.backgroundImage = "linear-gradient(to right,yellow "+calificacionFinal+"%,white 0%)";
+                    }
+                }
+            }
+        },
+        modificar(loged, calificacion, placeId, userId){
+
+            if(loged)
+            {
+                for(var k=0;k<this.datosCalificaicones.length;k++)
+                {
+                    if(userId.user.id == this.datosCalificaicones[k].userId)
+                    {
+                        this.existeLugar = true;
+                    }
+                }
+                console.log(this.existeLugar);
+                if(this.existeLugar){
+                    axios.post("http://localhost:3000/Calificaciones/modificarCalificacion",{
+                        calificacion:calificacion,
+                        placeid:placeId
+                    }).then(response => {
+                        console.log(response.data.message);
+                    }).catch(error => console.log(error));
+                }
+                else{
+                    axios.post("http://localhost:3000/Calificaciones/crearCalificacion",{
+                        calificacion:calificacion,
+                        placeId:placeId,
+                        userId:userId.user.id
+                    }).then(response => {
+                        console.log(response.data.message);
+                    }).catch(error => console.log(error));
+                }
+                this.$emit("emitir","");
+            }
+        },
+        crear(calificacion, placeId, userId){
+            axios.post("http://localhost:3000/Calificaciones/crearCalificacion",{
+                calificacion:calificacion,
+                placeId:placeId,
+                userId:userId
+                }).then(response => {
+                console.log(response.data.message);
+                }).catch(error => console.log(error));
+        },
     }
 }
 </script>
 
 <style scoped>
+    .estrella{ 
+        width:20%; 
+        height: 100%;
+        float: right;
+        margin: 0;
+    }
+    .estrella:hover{
+        filter:drop-shadow(0 0 0.1rem red);
+    }
+    .estrellitas{
+        margin-top: -8%;
+        width: 20%; 
+        height: 15px;
+        float: right;
+        margin-right: 4%;
+    }
     .cardFlotante{
         width: 400px;
         float: left;
@@ -72,7 +178,6 @@ export default {
         width: 70%;
         float: left;
         margin-left: 5px;
-        text-align: center;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 20px;
         margin-top: 10px;

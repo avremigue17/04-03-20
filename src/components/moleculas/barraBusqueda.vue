@@ -15,7 +15,9 @@ export default {
     },
     data(){
         return {
-            busqueda:""
+            busqueda:"",
+            palanca:"",
+            value:""
         }
     },
     methods:{
@@ -30,9 +32,18 @@ export default {
                 this.$emit("emitir",response);
                 this.setResultadosMapa(response)
             }).catch(error => console.log(error));
-        }else{
-            this.$emit("emitir",this.busqueda);
-        }
+            }else{
+                this.$emit("emitir",this.busqueda);
+            }
+        },
+        limpiar()
+        {
+            console.log("asd1");
+            if(this.palanca)
+            {
+                console.log("asd2");
+                this.busqueda = "";
+            }
         }
     }
 }
