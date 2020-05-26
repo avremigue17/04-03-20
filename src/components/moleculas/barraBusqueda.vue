@@ -1,6 +1,6 @@
 <template>
   <div>
-      <Entrada v-model="busqueda" @input="buscar" placeholder="La Paz B.C.S - Buscar"/>
+      <Entrada id="entrada" v-model="busqueda" @input="buscar" placeholder="La Paz B.C.S - Buscar"/>
   </div>
 </template>
 

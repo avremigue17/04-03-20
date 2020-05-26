@@ -117,6 +117,7 @@ export default {
             id:"",
             datosCalificaicones:[],
             palanca2:false,
+            vacio:"",
         };
     },
     methods:{
@@ -131,6 +132,8 @@ export default {
             }
             else{
                 this.lista="";
+                document.getElementById("entrada").value="";
+                
             }
         },
         ind(indice){
