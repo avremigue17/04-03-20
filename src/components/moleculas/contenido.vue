@@ -1,5 +1,5 @@
 <template>
-  <div class="cardFlotante" :datosPersonales="datosPersonales" :loged="loged" :style="styles" :lista="lista" :datosCalificaicones="datosCalificaicones">
+  <div class="cardFlotante" :datosPersonales="datosPersonales" :calificacionesTodo="calificacionesTodo" :loged="loged" :style="styles" :lista="lista" :datosCalificaicones="datosCalificaicones">
     <slot/>
     <div class="contenido" v-if="lista!=''">
         <ul>
@@ -8,8 +8,8 @@
                     <img src="https://lafarmaciahomeopatica.com/wp-content/uploads/2019/12/location-pin-flat.png">
                     <h3 v-on:click="devolver(indice)">{{lista[indice].name}}</h3>
                     <div id="calificacion">
-                         <img id="estrellaCalificacion" src="https://upload.wikimedia.org/wikipedia/commons/1/18/Estrella_amarilla.png" alt="">
-                        <h1 id="numeroCalificacion">3.0</h1>
+                        <img v-if="datosCalificaicones[indice]" id="estrellaCalificacion" src="https://upload.wikimedia.org/wikipedia/commons/1/18/Estrella_amarilla.png" alt="">
+                        <h1 id="numeroCalificacion">{{datosCalificaicones[indice]?datosCalificaicones[indice]:""}}</h1>
                     </div>
                     <!--<h3>{{calificacion(lista[indice].id,indice)}}</h3>-->
                     <div class="estrellitas">
@@ -38,7 +38,8 @@ export default {
         "lista",
         "datosCalificaicones",
         "datosPersonales",
-        "loged"
+        "loged",
+        "calificacionesTodo"
     ],
     data(){
         return {
@@ -85,19 +86,20 @@ export default {
         modificar(loged, calificacion, placeId, userId){
             if(loged)
             {
-                for(var k=0;k<this.datosCalificaicones.length;k++)
+                this.existeLugar = false;
+                for(var k=0;k<this.calificacionesTodo.length;k++)
                 {
-                    if(userId.user.id == this.datosCalificaicones[k].userId)
+                    if(userId.user.id == this.calificacionesTodo[k].userId)
                     {
-                        if(this.datosCalificaicones[k].placeId==placeId)
+                        if(this.calificacionesTodo[k].placeId==placeId)
                             this.existeLugar = true;
                     }
                 }
                 if(this.existeLugar){
-                    this.existeLugar = false;
                     axios.post("http://localhost:3000/Calificaciones/modificarCalificacion",{
                         calificacion:calificacion,
-                        placeid:placeId
+                        userId:userId.user.id,
+                        placeId:placeId,
                     }).then(response => {
                         console.log(response.data.message);
                     }).catch(error => console.log(error));
@@ -112,6 +114,9 @@ export default {
                     }).catch(error => console.log(error));
                 }
                 this.$emit("emitir","");
+            }
+            else{
+                alert("Tienes que registrarte para calificar");
             }
         },
         crear(calificacion, placeId, userId){

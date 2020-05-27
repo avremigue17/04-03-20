@@ -63,7 +63,7 @@
 
         <!-- barra de busqueda -->
         <card styles="top: 8px; left: 5px; width: 500px;">
-            <contenido styles="top: 51px; left: 5px;" :loged="loged" :datosPersonales="datosPersonales" :datosCalificaicones="datosCalificaicones" :lista="lista" @emitir="recibir" @devolver="ind"/>
+            <contenido styles="top: 51px; left: 5px;" :loged="loged" :calificacionesTodo="calificacionesTodo" :datosPersonales="datosPersonales" :datosCalificaicones="calificacion" :lista="lista" @emitir="recibir" @devolver="ind"/>
             <barraBusqueda id="barraBusqueda" @emitir="recibir"/>
         </card>
         
@@ -118,16 +118,72 @@ export default {
             datosCalificaicones:[],
             palanca2:false,
             vacio:"",
+            calificacion:[],
+            calificacionesTodo:[],
         };
     },
     methods:{
         recibir(response){
             if(response!=""){
                 this.lista=response.data.data;
+                var cadena =  [];
+                for(var i=0;i<this.lista.length;i++){
+                    cadena.push(this.lista[i].id);
+                }
                 axios.post("http://localhost:3000/calificaciones/consultarCalificacion", {
+                    placeId:cadena,
                 } ).then(response => {
                     this.datosCalificaicones = response.data;
-                    console.log(response.data)
+                    this.calificacion = [];
+                    var lugar = [];
+                    var cal = [];
+                    var total = [];
+
+                    for(var j=0;j<this.lista.length;j++)
+                    {
+                        for(var h=0;h<this.datosCalificaicones.length;h++)
+                        {
+                            if(this.lista[j].id==this.datosCalificaicones[h].placeId)
+                            {
+                                if(!lugar.includes(this.lista[j].id))
+                                {
+                                    lugar.push(this.lista[j].id);
+                                    cal.push(this.datosCalificaicones[h].calificacion);
+                                    total.push(1);
+                                }
+                                else
+                                {
+                                    for(var k=0;k<lugar.length;k++)
+                                    {
+                                        if(lugar[k] == this.lista[j].id) 
+                                        {
+                                            var calAux = cal[k];
+                                            var totalAux = total[k];
+                                            total[k] = totalAux+1;
+                                            cal[k] = calAux+this.datosCalificaicones[h].calificacion;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        }
+                    }
+                    for(var i=0;i<this.lista.length;i++)
+                    {
+                        if(lugar.includes(this.lista[i].id))
+                        {
+                            this.calificacion.push(cal[i]/total[i]);
+                        }
+                        else
+                        {
+                            this.calificacion.push(0);
+                        }
+                    }
+                }).catch(error => console.log(error));
+
+                axios.post("http://localhost:3000/calificaciones/consultarCalificacionTodo", {
+                } ).then(response => {
+                    this.calificacionesTodo = response.data;
                 }).catch(error => console.log(error));
             }
             else{

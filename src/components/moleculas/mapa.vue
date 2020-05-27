@@ -36,18 +36,12 @@ export default {
             {
                 document.getElementById("latitud").value = e.lngLat.wrap().lat;
                 document.getElementById("longitud").value = e.lngLat.wrap().lng;
-                var marcadorCrear = new mapboxgl.Marker();
-                marcadorCrear.setLngLat([e.lngLat.wrap().lng, e.lngLat.wrap().lat]);
-                marcadorCrear.addTo(this.map);
             }
 
             if(document.getElementById("latitud2")!=null)
             {
                 document.getElementById("latitud2").value = e.lngLat.wrap().lat;
                 document.getElementById("longitud2").value = e.lngLat.wrap().lng;
-                var marcadorModificar = new mapboxgl.Marker();
-                marcadorModificar.setLngLat([e.lngLat.wrap().lng, e.lngLat.wrap().lat]);
-                this.currentMarkers.push(marcadorModificar);
             }
         });
     },
