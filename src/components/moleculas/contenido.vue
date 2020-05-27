@@ -7,7 +7,11 @@
                 <div class="contenedor">
                     <img src="https://lafarmaciahomeopatica.com/wp-content/uploads/2019/12/location-pin-flat.png">
                     <h3 v-on:click="devolver(indice)">{{lista[indice].name}}</h3>
-                    <h3>{{calificacion(lista[indice].id,indice)}}</h3>
+                    <div id="calificacion">
+                         <img id="estrellaCalificacion" src="https://upload.wikimedia.org/wikipedia/commons/1/18/Estrella_amarilla.png" alt="">
+                        <h1 id="numeroCalificacion">3.0</h1>
+                    </div>
+                    <!--<h3>{{calificacion(lista[indice].id,indice)}}</h3>-->
                     <div class="estrellitas">
                         <img @click="modificar(loged, 5, lista[indice].id, datosPersonales)" class='estrella' :src="estrellas">
                         <img @click="modificar(loged, 4, lista[indice].id, datosPersonales)" class='estrella' :src="estrellas">
@@ -47,7 +51,7 @@ export default {
         devolver(indice){
             this.$emit("devolver",indice);
         },
-        calificacion(id,indice)
+        /*calificacion(id,indice)
         {
             var totalCal = 0;
             var calificacionAux = 0;
@@ -62,7 +66,7 @@ export default {
                 }
             }
 
-            var calificacionFinal = 0;
+           /* var calificacionFinal = 0;
             if(palanca)
                 calificacionFinal = (((calificacionAux/totalCal)*100)/5);
             
@@ -77,7 +81,7 @@ export default {
                     }
                 }
             }
-        },
+        },*/
         modificar(loged, calificacion, placeId, userId){
             if(loged)
             {
@@ -134,11 +138,12 @@ export default {
         filter:drop-shadow(0 0 0.1rem red);
     }
     .estrellitas{
-        margin-top: -8%;
+        margin-bottom: 5px;
+        margin-left: 25%;
         width: 20%; 
         height: 15px;
-        float: right;
-        margin-right: 4%;
+        float: left;
+        text-align: center;
     }
     .cardFlotante{
         width: 400px;
@@ -183,6 +188,7 @@ export default {
         margin-top: 10px;
         margin-bottom: 0px;
         color: rgb(207, 65, 40);
+        padding-bottom: 6px;
     }
     p{
         width: 80%;
@@ -191,6 +197,27 @@ export default {
         margin-left: 51px;
         text-align: center;
         font-weight: bold;
+    }
+    #calificacion{
+        margin-top: 20px;
+        margin-right: 2px;
+        width: 12%;
+        height: 50px;
+        float: right;
+    }
+    #estrellaCalificacion{
+        width: 35%;
+        height: 15px;
+        float: right;
+        margin-top: 4px;
 
+    }
+    #numeroCalificacion{
+        font-size: 20px;
+        float: right;
+        width: 30%;
+        margin: 0;
+        border: none;
+        margin-right: 7px;
     }
 </style>

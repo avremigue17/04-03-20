@@ -23,6 +23,7 @@ export default {
     methods:{
         ...mapMutations(["setResultadosMapa"]),
         buscar(){
+            console.log(this.busqueda);
             if(this.busqueda!=""){
             axios.get("http://localhost:3000/lugares", {
                 params: {
@@ -36,15 +37,6 @@ export default {
                 this.$emit("emitir",this.busqueda);
             }
         },
-        limpiar()
-        {
-            console.log("asd1");
-            if(this.palanca)
-            {
-                console.log("asd2");
-                this.busqueda = "";
-            }
-        }
     }
 }
 </script>
