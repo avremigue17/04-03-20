@@ -30,6 +30,26 @@ export default {
             trackUserLocation: true
             })
         this.map.addControl(geocoder,'bottom-right');
+
+        this.map.on('click', function(e) {
+            if(document.getElementById("latitud")!=null)
+            {
+                document.getElementById("latitud").value = e.lngLat.wrap().lat;
+                document.getElementById("longitud").value = e.lngLat.wrap().lng;
+                var marcadorCrear = new mapboxgl.Marker();
+                marcadorCrear.setLngLat([e.lngLat.wrap().lng, e.lngLat.wrap().lat]);
+                marcadorCrear.addTo(this.map);
+            }
+
+            if(document.getElementById("latitud2")!=null)
+            {
+                document.getElementById("latitud2").value = e.lngLat.wrap().lat;
+                document.getElementById("longitud2").value = e.lngLat.wrap().lng;
+                var marcadorModificar = new mapboxgl.Marker();
+                marcadorModificar.setLngLat([e.lngLat.wrap().lng, e.lngLat.wrap().lat]);
+                this.currentMarkers.push(marcadorModificar);
+            }
+        });
     },
     updated(){
         /*mapboxgl.accessToken = 'pk.eyJ1IjoiYXZyZW1pZ3VlIiwiYSI6ImNrN2UyaGdyZzA0NmozZ250bGNyMHMyaXYifQ.mxEBxZOBHLkzJGPJllpVEg';
@@ -64,6 +84,7 @@ export default {
             },
             essential: true
         });
+
         marcador.setPopup(popup);
         this.currentMarkers.push(marcador);
     }  

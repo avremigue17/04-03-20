@@ -21,11 +21,11 @@
             </div>
 
             <div v-if="crear && !palanca" id="crear">
-                <Entrada placeholder="Nombre" type="text" id="nombre" class="registro"></Entrada>
-                <Entrada placeholder="Latitud" type="number" id="latitud" class="registro"></Entrada>
-                <Entrada placeholder="Longitud" type="number" id="longitud" class="registro"></Entrada>
-                <Entrada placeholder="Descripcion" type="text" id="descripcion" class="registro"></Entrada>
-                <Entrada placeholder="Url imagen" type="text" id="url" class="registro"></Entrada>
+                <Entrada placeholder="Nombre" type="text" id="nombre" class="registro" required></Entrada>
+                <Entrada placeholder="Descripcion" type="text" id="descripcion" class="registro" required></Entrada>
+                <Entrada placeholder="Url imagen" type="text" id="url" class="registro" required></Entrada>
+                <Entrada placeholder="Latitud" type="text" id="latitud" class="registro" disabled required></Entrada>
+                <Entrada placeholder="Longitud" type="text" id="longitud" class="registro" disabled required></Entrada>
                 <boton class="registro" @click="insertarLugar">Crear</boton>
                 <boton class="registro" @click="volver(1)">Atras</boton>
             </div>
@@ -40,10 +40,10 @@
                 </div>
                 <div class="contenido" id="prueba2" style="display:none">
                     <Entrada placeholder="Nombre" type="text" id="nombre2" class="registro"></Entrada>
-                    <Entrada placeholder="Latitud" type="number" id="latitud2" class="registro"></Entrada>
-                    <Entrada placeholder="Longitud" type="number" id="longitud2" class="registro"></Entrada>
                     <Entrada placeholder="Descripcion" type="text" id="descripcion2" class="registro"></Entrada>
-                    <Entrada placeholder="Url imagen" type="text" id="url2" class="registro"></Entrada>
+                    <Entrada placeholder="Url imagen" type="text" id="url2" class="registro"></Entrada> 
+                    <Entrada placeholder="Latitud" type="text" id="latitud2" class="registro" disabled></Entrada>
+                    <Entrada placeholder="Longitud" type="text" id="longitud2" class="registro" disabled></Entrada>
                     <boton class="registro" @click="realizarCambios()">Guardar</boton>
                     <boton class="registro" @click="volver2(2)">Atras</boton>
                 </div>
@@ -175,7 +175,9 @@ export default {
         opcion(op){
             switch(op)
             {
-                case 1: this.crear = true; break;
+                case 1: 
+                    this.crear = true; 
+                break;
                 case 2: this.modificar = true;  this.consultarLugar(); break;
                 case 3: this.eliminar = true;this.consultarLugar(); break;
             }
@@ -183,7 +185,9 @@ export default {
         volver(op){
             switch(op)
             {
-                case 1: this.crear = false; break;
+                case 1: 
+                    this.crear = false;
+                break;
                 case 2: this.modificar = false; break;
                 case 3: this.eliminar = false; break;
             }
@@ -209,18 +213,22 @@ export default {
             this.imagen2=document.getElementById("url").value;
 
             if(this.name2!="" && this.latitud2!="" && this.longitud2!="" && this.descrip2!="" && this.imagen2!=""){
-            axios.post("http://localhost:3000/lugares",{
-                name:this.name2,
-                image:this.imagen2, 
-                lat:this.latitud2, 
-                lon:this.longitud2, 
-                description:this.descrip2,
-                userId:this.datosPersonales.user.id,
-            }).then(response => {
-                console.log(response.data.message);
-            }).catch(error => console.log(error));
+                axios.post("http://localhost:3000/lugares",{
+                    name:this.name2,
+                    image:this.imagen2, 
+                    lat:this.latitud2, 
+                    lon:this.longitud2, 
+                    description:this.descrip2,
+                    userId:this.datosPersonales.user.id,
+                }).then(response => {
+                    console.log(response.data.message);
+                }).catch(error => console.log(error));
+                this.volver(1);
             }
-            this.volver(1);
+            else{
+                alert("todos los campos tiene que estar llenos verga");
+
+            }
         },
         //consultar lugar
         consultarLugar(){
@@ -260,9 +268,12 @@ export default {
                 }).then(response => {
                 console.log(response.data.message);
                 }).catch(error => console.log(error));
+                this.volver2(2);
+                this.volver(2);
             }
-            this.volver2(2);
-            this.volver(2);
+            else{
+                alert("todos los campos tiene que estar llenos verga");
+            }
         },
         eliminarLugar(id){
             if(id!==""){
