@@ -175,7 +175,7 @@ export default {
                             //var aux=1.6666666;
                             //(Math.round(aux)).toFixed(2);
                             //console.log(aux);
-                            this.calificacion.push(cal[i]/total[i]);
+                            this.calificacion.push((cal[i]/total[i]%1!=0)?(cal[i]/total[i]).toFixed(1):cal[i]/total[i]);
                         }
                         else
                         {
