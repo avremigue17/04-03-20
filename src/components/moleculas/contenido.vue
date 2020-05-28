@@ -8,8 +8,9 @@
                     <img src="https://lafarmaciahomeopatica.com/wp-content/uploads/2019/12/location-pin-flat.png">
                     <h3 v-on:click="devolver(indice)">{{lista[indice].name}}</h3>
                     <div id="calificacion">
-                        <img v-if="datosCalificaicones[indice]" id="estrellaCalificacion" src="https://upload.wikimedia.org/wikipedia/commons/1/18/Estrella_amarilla.png" alt="">
                         <h1 id="numeroCalificacion">{{datosCalificaicones[indice]?datosCalificaicones[indice]:""}}</h1>
+                        <img v-if="datosCalificaicones[indice]" id="estrellaCalificacion" src="https://upload.wikimedia.org/wikipedia/commons/1/18/Estrella_amarilla.png" alt="">
+                        
                     </div>
                     <!--<h3>{{calificacion(lista[indice].id,indice)}}</h3>-->
                     <div class="estrellitas">
@@ -213,7 +214,7 @@ export default {
     #estrellaCalificacion{
         width: 35%;
         height: 15px;
-        float: right;
+        float: left;
         margin-top: 4px;
 
     }
@@ -223,6 +224,6 @@ export default {
         width: 30%;
         margin: 0;
         border: none;
-        margin-right: 7px;
+        margin-right: 10px;
     }
 </style>

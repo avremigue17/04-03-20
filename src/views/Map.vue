@@ -172,6 +172,9 @@ export default {
                     {
                         if(lugar.includes(this.lista[i].id))
                         {
+                            //var aux=1.6666666;
+                            //(Math.round(aux)).toFixed(2);
+                            //console.log(aux);
                             this.calificacion.push(cal[i]/total[i]);
                         }
                         else
@@ -282,7 +285,7 @@ export default {
                 this.volver(1);
             }
             else{
-                alert("todos los campos tiene que estar llenos verga");
+                alert("todos los campos tiene que estar llenos");
 
             }
         },
