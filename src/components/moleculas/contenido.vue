@@ -32,6 +32,7 @@
 
 <script>
 import axios from "axios";
+import swal from 'sweetalert';
 export default {
     name: "contenido",
     props:[
@@ -103,6 +104,7 @@ export default {
                         placeId:placeId,
                     }).then(response => {
                         console.log(response.data.message);
+                        swal("Se ha modificado su calificación");
                     }).catch(error => console.log(error));
                 }
                 else{
@@ -112,12 +114,13 @@ export default {
                         userId:userId.user.id
                     }).then(response => {
                         console.log(response.data.message);
+                        swal("Se ha calificado exitosamente");
                     }).catch(error => console.log(error));
                 }
                 this.$emit("emitir","");
             }
             else{
-                alert("Tienes que registrarte para calificar");
+                swal("Tienes que registrarte para calificar");
             }
         },
         crear(calificacion, placeId, userId){
@@ -225,5 +228,6 @@ export default {
         margin: 0;
         border: none;
         margin-right: 10px;
+         background-color: rgba(16, 241, 148, 0);
     }
 </style>

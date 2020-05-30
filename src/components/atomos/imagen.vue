@@ -13,13 +13,11 @@
 
 <style scoped>
   img{
+    margin-left: 4%;
     float: left;
     width: 70%;
-    background-color:cyan;
-    border: solid white;
-    border-width: 10px;
-    border-top-right-radius: 15%;
-    border-bottom-left-radius: 15%;
+    background-color:white;
+    border-radius: 25px;
   }
   div
   {

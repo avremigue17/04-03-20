@@ -15,12 +15,13 @@
             <div v-if="(loged && !palanca) && (!crear && !modificar && !eliminar)" id="loged">
                 <h1>Bienvenido:<br>{{datosPersonales.user.usuario}}</h1>
                 <boton class="registro3" @click="opcion(1)">Crear lugar</boton>
-                <boton class="registro3" @click="opcion(2)">Modifica lugar</boton>
+                <boton class="registro3" @click="opcion(2)">Modificar lugar</boton>
                 <boton class="registro3" @click="opcion(3)">Eliminar lugar</boton>
                 <boton class="registro3" @click="salir">Salir</boton>
             </div>
 
             <div v-if="crear && !palanca" id="crear">
+                <h1>Crear Lugar</h1>
                 <Entrada placeholder="Nombre" type="text" id="nombre" class="registro" required></Entrada>
                 <Entrada placeholder="Descripcion" type="text" id="descripcion" class="registro" required></Entrada>
                 <Entrada placeholder="Url imagen" type="text" id="url" class="registro" required></Entrada>
@@ -32,7 +33,7 @@
 
             <div v-if="modificar && !palanca"  id="modificar">
                 <div v-if="!palanca" class="contenido" id="prueba">
-                    <h1>Lugares</h1>
+                    <h1>Modificar Lugar</h1>
                     <div class="contenedor">
                     <boton class="registro" v-for="(nombre,indice) in datosLugares" :key="nombre+indice" v-on:click="modificarLugar(indice)" >{{datosLugares[indice].name}}</boton>
                     </div>
@@ -52,7 +53,7 @@
 
             <div v-if="eliminar && !palanca"  id="eliminar">
                 <div v-if="!palanca" class="contenido" id="prueba">
-                    <h1>Lugares</h1>
+                    <h1>Eliminar Lugar</h1>
                     <div class="contenedor">
                         <boton class="registro" v-for="(nombre,indice) in datosLugares" :key="nombre+indice" v-on:click="eliminarLugar(indice)" >{{datosLugares[indice].name}}</boton>
                     </div>
@@ -79,6 +80,7 @@ import mapa from "../components/moleculas/mapa";
 import card from "../components/atomos/card";
 import barraBusqueda from "../components/moleculas/barraBusqueda";
 import contenido from "../components/moleculas/contenido";
+import swal from 'sweetalert';
 export default {
     name:"Mapa",
     components: {
@@ -223,8 +225,13 @@ export default {
         },
         //logeado
         logeado(response){
-            this.loged=response.message;
-            this.datosPersonales=response.data;
+            if(response.message){   
+                this.loged=response.message;
+                this.datosPersonales=response.data;
+            }else{
+                swal("Usuario o Contraseña Incorrecta");
+            }
+            
         },
         salir(){
             this.loged=false;
@@ -281,11 +288,12 @@ export default {
                     userId:this.datosPersonales.user.id,
                 }).then(response => {
                     console.log(response.data.message);
+                    swal("Lugar creado!", this.name2, "success");
                 }).catch(error => console.log(error));
                 this.volver(1);
             }
             else{
-                alert("todos los campos tiene que estar llenos");
+                swal("Favor de llenar todos los campos");
 
             }
         },
@@ -317,7 +325,16 @@ export default {
             this.imagen2=document.getElementById("url2").value;
 
             if(this.name2!="" && this.latitud2!="" && this.longitud2!="" && this.descrip2!="" && this.imagen2!=""){
-                axios.post("http://localhost:3000/lugares/modificarLugar",{
+                swal({
+                    title: "¿Desea Modificar?",
+                    text: this.name2+" - Los cambios realizados seran de forma permanente",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        axios.post("http://localhost:3000/lugares/modificarLugar",{
                     name:this.name2,
                     image:this.imagen2, 
                     lat:this.latitud2, 
@@ -325,23 +342,44 @@ export default {
                     description:this.descrip2,
                     id:this.id,
                 }).then(response => {
-                console.log(response.data.message);
+                    console.log(response.data.message);
+                    swal("Modificado!", {icon: "success",});
                 }).catch(error => console.log(error));
                 this.volver2(2);
                 this.volver(2);
+                    } else {
+                        swal("Cancelado!");
+                    }
+                });    
             }
             else{
-                alert("todos los campos tiene que estar llenos verga");
+                swal("Favor de llenar todos los campos");
             }
         },
         eliminarLugar(id){
             if(id!==""){
-                console.log(this.datosLugares[id].id);
-                axios.post("http://localhost:3000/lugares/eliminarLugar",{
-                    id:this.datosLugares[id].id,
-                }).then(response => {
-                console.log(response.data.message);
-                }).catch(error => console.log(error));
+                swal({
+                    title: "¿Desea Eliminar?",
+                    text: this.datosLugares[id].name+" - Sera eliminado de forma permanente",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        console.log(this.datosLugares[id].id);
+                        axios.post("http://localhost:3000/lugares/eliminarLugar",{
+                            id:this.datosLugares[id].id,
+                        }).then(response => {
+                        console.log(response.data.message);
+                        swal("Cancelado!", {
+                        icon: "success",
+                        });
+                        }).catch(error => console.log(error));
+                    } else {
+                        swal("Cancelado!");
+                    }
+                });
             }
             this.volver2(3);
             this.volver(3);
@@ -378,6 +416,9 @@ export default {
         border-radius: 5px;
 
     }
+    .registro:hover{
+        filter:drop-shadow(0 0 0.15rem black);
+    }
     .registro3{
         width: 95%;
         height: 50px;
@@ -386,7 +427,9 @@ export default {
         background-color: floralwhite;
         border-radius: 5px; 
     }
-
+    .registro3:hover{
+        filter:drop-shadow(0 0 0.15rem black);
+    }
     .contenedor{
         overflow: auto;
         float: left;

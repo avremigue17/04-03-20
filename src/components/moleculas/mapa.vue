@@ -23,13 +23,12 @@ export default {
             center: [-110.312783,24.125018],
             zoom: 13
         });
-        var geocoder=new mapboxgl.GeolocateControl({
-            positionOptions: {
-            enableHighAccuracy: true
-            },
-            trackUserLocation: true
-            })
-        this.map.addControl(geocoder,'bottom-right');
+        this.map.addControl(new mapboxgl.GeolocateControl({
+                positionOptions: {  
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true
+            }),'bottom-right');
 
         this.map.on('click', function(e) {
             if(document.getElementById("latitud")!=null)

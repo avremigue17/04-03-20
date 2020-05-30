@@ -2,7 +2,7 @@
   <div class="login">
       <!-- login -->
       <h1 v-if="!registro">Iniciar Sesion</h1>
-      <imagen v-if="!registro" link="https://www.ebat.edu.mx/theme/images/avatar/avatar-18.png"/>
+      <imagen v-if="!registro" link="https://image.flaticon.com/icons/png/512/166/166258.png"/>
       <Entrada v-if="!registro" placeholder="Correo" type="text" id="user" class="registro" style="float:left"></Entrada>
       <Entrada v-if="!registro" placeholder="Contraseña" type="password" id="pass" class="registro" style="float:left"></Entrada>
       <boton v-if="!registro" class="registro" @click="buscar">Iniciar</boton>
@@ -15,7 +15,7 @@
       <Entrada v-if="registro" placeholder="Correo" type="text" id="correo" class="registro" style="float:left"></Entrada>
       <Entrada v-if="registro" placeholder="Usuario" type="text" id="usiario" class="registro" style="float:left"></Entrada>
       <Entrada v-if="registro" placeholder="Contraseña" type="password" id="pass" class="registro" style="float:left"></Entrada>
-      <Entrada v-if="registro" placeholder="Fecha de Nacimiento" type="text" id="fecha" class="registro" style="float:left"></Entrada>
+      <Entrada v-if="registro" placeholder="Fecha de Nacimiento" type="date" id="fecha" class="registro" style="float:left"></Entrada>
       <boton v-if="registro" class="registro"  @click="atras">Atras</boton>
       <boton v-if="registro" class="registro" @click="insertar">Registrarse</boton>
 
@@ -27,6 +27,7 @@ import axios from "axios";
 import boton from "../atomos/boton";
 import Entrada from "../atomos/Entrada";
 import imagen from "../atomos/imagen";
+import swal from 'sweetalert';
 export default {
     name:"login",
     components: {
@@ -60,6 +61,7 @@ export default {
                 this.$emit("emitir",response.data);
             }).catch(error => console.log(error));
             }else{
+                swal("Introducir usuario y contraseña");
                 this.$emit("emitir",this.busqueda);
             }
         },
@@ -86,11 +88,16 @@ export default {
                 contraseña:this.passCreate,
                 fecha_nacimiento:this.fecha,
             } ).then(response => {
+                if(response.data.message==false){
+                    swal("El correo ya ha sido utilizado");
+                }else{
+                    swal("Usuario creado correctamente");
+                }
                 console.log(response.data.message);
                 this.registro = false;
             }).catch(error => console.log(error));
             }else{
-                console.log("asd");
+                swal("Favor de llenar todos los datos");
             }
         },
         atras(){
@@ -112,8 +119,11 @@ export default {
     margin-top: 2%;
     margin-left: 2.5%;
     background-color: floralwhite;
-    border-radius: 5px;  
+    border-radius: 5px; 
 }
+.registro:hover{
+        filter:drop-shadow(0 0 0.15rem black);
+    }
 .registro2{
     width: 95%;
     height: 25px;
@@ -125,16 +135,15 @@ export default {
      text-decoration: underline;
 }
 h1{
-    width: 98%;
+    width: 100%;
         float: left;
         color: darkblue;
         font-weight: bold;
         font-size: 45px;
         margin-top: 8px;
         text-align: center;
-        border: solid white;
-        border-width: 3px;
-        border-top-right-radius: 15%;
-        border-bottom-left-radius: 15%;
+        background-color:  white;
+        border-bottom: solid 2px black;  
+        border-top: solid 2px black;  
     }
 </style>
