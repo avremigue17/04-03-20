@@ -174,9 +174,6 @@ export default {
                     {
                         if(lugar.includes(this.lista[i].id))
                         {
-                            //var aux=1.6666666;
-                            //(Math.round(aux)).toFixed(2);
-                            //console.log(aux);
                             this.calificacion.push((cal[i]/total[i]%1!=0)?(cal[i]/total[i]).toFixed(1):cal[i]/total[i]);
                         }
                         else
@@ -367,7 +364,6 @@ export default {
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        console.log(this.datosLugares[id].id);
                         axios.post("http://localhost:3000/lugares/eliminarLugar",{
                             id:this.datosLugares[id].id,
                         }).then(response => {
