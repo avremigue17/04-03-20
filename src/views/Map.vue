@@ -212,7 +212,7 @@ export default {
                 document.getElementById("card").style.backgroundColor="rgba(16, 241, 148, 0)";
             }else{
                 document.getElementById("card").style.width="20%";
-                document.getElementById("card").style.height="78%";
+                document.getElementById("card").style.height="85%";
                 document.getElementById("card").style.left="79%";
                 document.getElementById("botonVolver").src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-right-01-512.png";
                 document.getElementById("card").style.backgroundColor="rgba(16, 241, 148, .7)";

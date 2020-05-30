@@ -18,6 +18,7 @@
     width: 70%;
     background-color:white;
     border-radius: 25px;
+    margin-bottom: 20px;
   }
   div
   {
