@@ -45,6 +45,7 @@
                     <Entrada placeholder="Nombre" type="text" id="nombre2" class="registro"></Entrada>
                     <Entrada placeholder="Descripcion" type="text" id="descripcion2" class="registro"></Entrada>
                     <Entrada placeholder="Url imagen" type="text" id="url2" class="registro"></Entrada> 
+                    <h4>Haz Click en el lugar del mapa</h4>
                     <Entrada placeholder="Latitud" type="text" id="latitud2" class="registro" disabled></Entrada>
                     <Entrada placeholder="Longitud" type="text" id="longitud2" class="registro" disabled></Entrada>
                     <boton class="registro" @click="realizarCambios()">Guardar</boton>
