@@ -14,21 +14,22 @@
             <!-- usuario ya logeado -->
             <div v-if="(loged && !palanca) && (!crear && !modificar && !eliminar)" id="loged">
                 <h1>Bienvenido:<br>{{datosPersonales.user.usuario}}</h1>
-                <boton class="registro3" @click="opcion(1)">Crear lugar</boton>
-                <boton class="registro3" @click="opcion(2)">Modificar lugar</boton>
-                <boton class="registro3" @click="opcion(3)">Eliminar lugar</boton>
+                <boton class="registro3" @click="opcion(1)"><img src="https://image.flaticon.com/icons/png/512/61/61183.png" class="icono"><h3>Crear lugar</h3></boton>
+                <boton class="registro3" @click="opcion(2)"><img src="https://image.flaticon.com/icons/png/512/104/104668.png" class="icono"><h3>Modificar lugar</h3></boton>
+                <boton class="registro3" @click="opcion(3)"><img src="https://image.flaticon.com/icons/png/512/25/25008.png" class="icono"><h3>Eliminar lugar</h3></boton>
                 <boton class="registro3" @click="salir">Salir</boton>
             </div>
 
             <div v-if="crear && !palanca" id="crear">
                 <h1>Crear Lugar</h1>
                 <Entrada placeholder="Nombre" type="text" id="nombre" class="registro" required></Entrada>
-                <Entrada placeholder="Descripcion" type="text" id="descripcion" class="registro" required></Entrada>
+                <Entrada placeholder="Descripción" type="text" id="descripcion" class="registro" required></Entrada>
                 <Entrada placeholder="Url imagen" type="text" id="url" class="registro" required></Entrada>
+                <h4>Haz Click en el lugar del mapa</h4>
                 <Entrada placeholder="Latitud" type="text" id="latitud" class="registro" disabled required></Entrada>
                 <Entrada placeholder="Longitud" type="text" id="longitud" class="registro" disabled required></Entrada>
-                <boton class="registro" @click="insertarLugar">Crear</boton>
-                <boton class="registro" @click="volver(1)">Atras</boton>
+                <boton class="registro" @click="insertarLugar" style="width: 97%;">Crear</boton>
+                <boton class="registro" @click="volver(1)" style="width: 97%;">Atras</boton>
             </div>
 
             <div v-if="modificar && !palanca"  id="modificar">
@@ -40,6 +41,7 @@
                     <boton class="registro" @click="volver(2)">Atras</boton>
                 </div>
                 <div class="contenido" id="prueba2" style="display:none">
+                    <h1>Modificar Lugar</h1>
                     <Entrada placeholder="Nombre" type="text" id="nombre2" class="registro"></Entrada>
                     <Entrada placeholder="Descripcion" type="text" id="descripcion2" class="registro"></Entrada>
                     <Entrada placeholder="Url imagen" type="text" id="url2" class="registro"></Entrada> 
@@ -410,7 +412,7 @@ export default {
         margin-left: 2.5%;
         background-color: floralwhite;
         border-radius: 5px;
-
+        border: none;
     }
     .registro:hover{
         filter:drop-shadow(0 0 0.15rem black);
@@ -419,9 +421,10 @@ export default {
         width: 95%;
         height: 50px;
         margin-top: 2%;
-        margin-left: 2.5%;
+        margin-left: 3.5%;
         background-color: floralwhite;
         border-radius: 5px; 
+        border: none;
     }
     .registro3:hover{
         filter:drop-shadow(0 0 0.15rem black);
@@ -449,5 +452,26 @@ export default {
     }
     #botonVolver{
         float: right;
+    }
+    h4{
+        background-color: floralwhite;
+        border-radius: 5px;
+        margin-bottom: 0 ;
+        width: 97%;
+        margin-left: 2.5%;
+    }
+    .icono{
+        width: 30px;
+        height: 30px;
+        float: left;
+        margin-left: 5px;
+        margin-right: 0;
+        margin-top: 4%;
+    }
+    h3{
+        float: left;
+        font-size: 18px;
+        margin-left: 20%;
+        margin-top: 6%;
     }
 </style>

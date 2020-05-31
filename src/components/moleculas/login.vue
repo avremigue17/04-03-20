@@ -5,7 +5,7 @@
       <imagen v-if="!registro" link="https://image.flaticon.com/icons/png/512/166/166258.png"/>
       <Entrada v-if="!registro" placeholder="Correo" type="text" id="user" class="registro" style="float:left"></Entrada>
       <Entrada v-if="!registro" placeholder="Contraseña" type="password" id="pass" class="registro" style="float:left"></Entrada>
-      <boton v-if="!registro" class="registro" @click="buscar">Iniciar</boton>
+      <boton v-if="!registro" class="registro" @click="buscar" style="width: 96%;">Iniciar</boton>
       <boton v-if="!registro" class="registro2" @click="registrar">Registrarse</boton>
       <!-- registro -->
       <h1 v-if="registro">Registro</h1>
@@ -119,7 +119,8 @@ export default {
     margin-top: 2%;
     margin-left: 2.5%;
     background-color: floralwhite;
-    border-radius: 5px; 
+    border-radius: 5px;
+    border: none; 
 }
 .registro:hover{
         filter:drop-shadow(0 0 0.15rem black);
@@ -143,7 +144,7 @@ h1{
         margin-top: 8px;
         text-align: center;
         background-color:  white;
-        border-bottom: solid 2px black;  
-        border-top: solid 2px black;  
+        border-bottom: solid 3px black;;  
+        border-top: solid 3px black;  
     }
 </style>

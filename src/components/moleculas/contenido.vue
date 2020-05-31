@@ -45,7 +45,7 @@ export default {
     ],
     data(){
         return {
-            estrellas:"https://icons-for-free.com/iconfiles/png/512/favorite+favourite+premium+rate+rating+star+icon-1320166547676710135.png",
+            estrellas:"https://upload.wikimedia.org/wikipedia/commons/1/18/Estrella_amarilla.png",
             estrellotas:[1,2,3,4,5],
             existeLugar:false,
         }
@@ -142,9 +142,10 @@ export default {
         height: 100%;
         float: right;
         margin: 0;
+        filter: grayscale(100%);
     }
     .estrella:hover{
-        filter:drop-shadow(0 0 0.1rem red);
+        filter:grayscale(0%);
     }
     .estrellitas{
         margin-bottom: 5px;
@@ -187,6 +188,7 @@ export default {
         height: 45px;
         float: left;
         margin-left: 5px;
+        margin-top: 12px;
     }
     h3{
         width: 70%;
